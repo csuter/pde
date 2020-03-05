@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_probability as tfp
 doc = hd.handout.Handout(
-    '/var/www/html/handouts/12_steps_to_navier_stokers/step_1', title='Step 1')
+    './step_1', title='Step 1')
 doc.show()
 
 nx = 100

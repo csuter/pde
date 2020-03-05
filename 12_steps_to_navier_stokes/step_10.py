@@ -1,11 +1,13 @@
 import handout as hd
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from tqdm import tqdm
 from matplotlib.animation import FuncAnimation
 
-output_dir = '/var/www/html/handouts/12_steps_to_navier_stokers/step_10'
+output_dir = '/Users/cgs/code/airplane/pde/12_steps_to_navier_stokes/step_10'
 doc = hd.handout.Handout(output_dir, title='Step 10')
 doc.show()
 
@@ -80,7 +82,8 @@ for proc in processes:
   proc.join()
 print(processes)
 
-with open('/tmp/sliceslist.txt', 'w') as f:
+sliceslist_txt = '/'.join([output_dir, 'sliceslist.txt'])
+with open(sliceslist_txt, 'w') as f:
   f.writelines([
     'file \'' + '/'.join([output_dir, 'animation_slice_{:02}.mp4'.format(i)]) + '\'\n' for i in range(nt // sl)
   ])
@@ -90,7 +93,7 @@ subprocess.run([
   '-f',
   'concat',
   '-safe', '0',
-  '-i', '/tmp/sliceslist.txt',
+  '-i', sliceslist_txt,
   '-c', 'copy',
   '/'.join([output_dir, 'animation.mp4'])
   ])

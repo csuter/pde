@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Step 1</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="highlight.css">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<script src="marked.js"></script>
+<script src="script.js"></script>
+<script src="highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"]]}});</script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+</head>
+<body>
+<article><pre><code class="python">import handout as hd
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+import tensorflow as tf
+import tensorflow_probability as tfp
+doc = hd.handout.Handout(
+    './step_1', title='Step 1')
+doc.show()
+
+nx = 100
+xs = np.linspace(0., 2., nx)
+dx = xs[1] - xs[0]
+
+nt = 300
+ts = np.linspace(0., 3., nt)
+dt = ts[1] - ts[0]
+
+c = .5
+doc.show()
+
+u = np.zeros([nx, nt])
+u[xs &lt; .5, :] = 1.
+u[xs &gt; .5, :] = 1.5
+u[xs &gt; 1., :] = 1.
+doc.show()
+
+for t in range(nt - 1):
+  u[0, t+1] = u[0, t]
+  u[1:, t+1] = u[1:, t] - c * dt / dx * (u[1:, t] - u[:-1, t])
+
+
+fig = plt.figure(figsize=(20, 8))
+plt.imshow(u, cmap='viridis', interpolation='none',
+           extent=[0, nt * dt, 2, 0])
+doc.add_figure(fig)
+doc.show()</code></pre>
+<img src="figure-0.png" /></article>
+</body>
+</html>

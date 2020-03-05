@@ -1,4 +1,20 @@
-import handout as hd
+<!DOCTYPE html>
+<html>
+<head>
+<title>Step 10</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="highlight.css">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<script src="marked.js"></script>
+<script src="script.js"></script>
+<script src="highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({tex2jax: {inlineMath: [["$","$"]]}});</script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+</head>
+<body>
+<article><pre><code class="python">import handout as hd
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
@@ -6,7 +22,7 @@ from tqdm import tqdm
 from matplotlib.animation import FuncAnimation
 
 output_dir = '/Users/cgs/code/airplane/pde/12_steps_to_navier_stokes/step_10'
-doc = hd.handout.Handout(output_dir, title='Step 11')
+doc = hd.handout.Handout(output_dir, title='Step 10')
 doc.show()
 
 nx = ny = 100
@@ -14,45 +30,19 @@ nt = 300
 
 xs = np.linspace(0., 2, nx)
 ys = np.linspace(0., 2, ny)
-ts = np.linspace(0., 1., nt)
 
 dx = xs[1] - xs[0]
 dy = ys[1] - ys[0]
 doc.show()
 
-u = np.zeors([nx, ny, nt])
-v = np.zeors([nx, ny, nt])
 p = np.zeros([nx, ny, nt])
+b = np.zeros([nx, ny])
 
+b[nx // 4, ny // 4] = 100.
+b[3 * nx // 4, 3 * ny // 4] = -100.
 print(b)
 
 for t in range(nt - 1):
-  # 1. Update velocity field u, v
-  u[1:-1, 1:-1, t + 1] = (
-        u[1:-1, 1:-1, t] +
-        -u[1:-1, 1:-1, t] * (dt / dx) * (u[1:-1, 1:-1, t] - u[:-2, 1:-1, t]) +
-        -v[1:-1, 1:-1, t] * (dt / dy) * (u[1:-1, 1:-1, t] - u[:-2, 1:-1, t]) +
-        -(dt / (2. * density * dx)) * (p[2:, 1:-1] - p[:-2, 1:-1]) +
-        viscosity * dt * (1 / dx**2 + 1 / dy**2) *
-            (u[2:, 1:-1, t] - 2 * u[1:-1, 1:-1, t] + u[:-2, 1:-1, t]))
-
-  v[1:-1, 1:-1, t + 1] = (
-        v[1:-1, 1:-1, t] +
-        -(dt / dx) * u[1:-1, 1:-1, t] * (v[1:-1, 1:-1, t] - v[:-2, 1:-1, t]) +
-        -(dt / dy) * v[1:-1, 1:-1, t] * (v[1:-1, 1:-1, t] - v[:-2, 1:-1, t]) +
-        -(dt / (2. * density * dy)) * (p[2:, 1:-1] - p[:-2, 1:-1]) +
-        viscosity * dt * (1 / dx**2 + 1 / dy**2) *
-            (v[2:, 1:-1, t] - 2 * v[1:-1, 1:-1, t] + v[:-2, 1:-1, t]))
-
-
-  # 2. Compute new pressure source term
-  b = np.zeros([nx, ny])
-  b[1:-1, 1:-1] = 
-
-  # 3. Iteratively solve for pressure field
-
-
-
   p[1:-1, 1:-1, t+1] = (
       dy ** 2 * (p[2:, 1:-1, t] + p[:-2, 1:-1, t]) +
       dx ** 2 * (p[1:-1, 2:, t] + p[1:-1, :-2, t]) -
@@ -123,5 +113,8 @@ subprocess.run([
   ])
 
 tq.close()
-doc.add_html('<video autoplay controls loop src="animation.mp4"/>')
-doc.show()
+doc.add_html('&lt;video autoplay controls loop src="animation.mp4"/&gt;')
+doc.show()</code></pre>
+<video autoplay controls loop src="animation.mp4"/></article>
+</body>
+</html>
